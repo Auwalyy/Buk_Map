@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Locator</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="search-container">
+        <label for="departmentInput">Enter Department Name:</label>
+        <input type="text" id="departmentInput" />
+        <button onclick="searchDepartment()" id="search-btn">Locate</button>
+
+        <div id="suggestions">
+            <label for="departmentSelect">Suggested Departments:</label>
+            <select id="departmentSelect" onchange="selectSuggestedDepartment()"></select>
+        </div>
+        <div class="image-div">
+        
+            <img id="faculty-image" src="images/location/" alt="Faculty Image">
+        </div>
+    </div>
+    <div id="map" style="height: 100%px;"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Get the faculty image
+        const facultyImage =
+        
+        document.querySelector("#faculty-image");
+
+
+        var map = L.map('map').setView([11.9728,8.4259], 13);
+        var marker;
+        var line;
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        const deps = [
+            {name: "Home", coordinates: [11.9728,8.4259], image: "buk.jpeg"},
+            {name: "Faculty of Earth and Enviromental Sciences", coordinates: [11.97788798029846, 8.427111968299158], image: "ima"},
+            {name: "faculty of agricultural science", coordinates: [11.973306527320533, 8.424967835291499], image: "agric.jpeg"}
+        ]
+
+        var departments = {
+            "mosque": [11.97035, 8.4333],
+            "Faculty of Earth and Enviromental Sciences": [11.97788798029846, 8.427111968299158],
+            "department of geography": [11.978428245325164, 8.427081415955271],
+            "department of geology": [11.97932033790343, 8.428293774407127],
+            "departmnet of architecture": [11.979677174109531, 8.426952669924987],
+            "faculty of education": [11.973815794525017, 8.43110309527324],
+            "faculty of computer science": [11.97533762387817, 8.42519150669451],
+            "department of computer science": [11.97533762387817, 8.42519150669451],
+            "department of software engineering": [11.97533762387817, 8.42519150669451],
+            "department of informantion technology": [11.97533762387817, 8.42519150669451],
+            "department of cyber security": [11.97533762387817, 8.42519150669451],
+            "faculty of engineering": [11.972558690895347, 8.425332250890044],
+            "department of electrical engineering": [11.974314086069274, 8.424367020487045],
+            "department of civil engineering": [11.976402659473678, 8.420869419922123],
+            "department of mechatronics engineering": [11.977578130835282, 8.42084796225041],
+            "department of agricultural engineering": [11.973306527320533, 8.424967835291499],
+            "department of chemical engineering": [11.972944434979457, 8.424645970215787],
+            "department of computer engineering": [11.974314086069274, 8.424367020487045],
+            "department of telecommunication engineering": [11.974314086069274, 8.424367020487045],
+            "department of petroluem engineering": [11.972944434979457, 8.424645970215787],
+            "faculty of art and islamic studies": [11.974802360703142, 8.427348002721628],
+           // "department of arabic": [],
+            //"department of islamic studies": [],
+            "faculty of law": [11.968777954015524, 8.422219619036557],
+            "faculty of social and management sciences": [11.972309191194745, 8.429522131299446],
+            "department of accounting": [11.970346801763359, 8.428186486099774],
+            "department of economics": [11.97250887396359, 8.427392552246344],
+            "department of political science": [11.973012655292093, 8.429259369685484],
+            "department of sociology": [11.971511803981784, 8.429634878940483],
+            "department of criminology": [11.971511803981784, 8.429634878940483],
+            "faculty of agriculture": [11.977090340616657, 8.42556701596975],
+            "coke village": [11.971863642484788, 8.423389062271921],
+            "faculty of communication": [11.966154041448075, 8.426200017302518],
+            "department of mass communication": [11.974476495424616, 8.426523421614233],
+            "department of english": [11.974801851948486, 8.426582430207693],
+            "department of science and technical eductaion": [11.973815285813908, 8.429688428259484],
+            "dangote business school": [11.967554705054601, 8.427161787392972],
+            "seneta building": [11.971700453727014, 8.425724123345088],
+            "library": [11.975058988269856, 8.426196192116837],
+            "buk microfinance bank": [11.975846138769285, 8.429650877321743],
+            "nelson mandela cresent": [11.975116712726281, 8.42833123047407],
+        };
+
+        // var suggestedDepartments = Object.keys(departments);
+        const suggestedDepartments = deps
+
+        // Populate the suggestions dropdown
+        var select = document.getElementById('departmentSelect');
+        // suggestedDepartments.forEach(function (department) {
+        //     var option = document.createElement('option');
+        //     option.value = department;
+        //     option.text = department;
+        //     select.appendChild(option);
+        // });
+        suggestedDepartments.forEach(department => {
+            var option = document.createElement('option');
+            option.value = department.name;
+            option.text = department.name;
+            select.appendChild(option);
+        })
+
+        function selectSuggestedDepartment() {
+            var selectedDepartment = document.getElementById('departmentSelect').value;
+            const depData = deps.filter(dep => dep.name === selectedDepartment)[0];
+            var departmentCoordinates = depData.coordinates;
+            
+            facultyImage.src = `images/${depData.image}`;
+
+            // Remove previous marker and line if they exist
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            if (line) {
+                map.removeLayer(line);
+            }
+
+            // Create a new marker at the department's location
+            marker = L.marker(departmentCoordinates).addTo(map);
+
+            // Create a polyline from school to department location
+            var schoolCoordinates = [11.9728, 8.4259]; // School coordinates
+            var latlngs = [schoolCoordinates, departmentCoordinates];
+            line = L.polyline(latlngs, {color: 'blue'}).addTo(map);
+
+            // Set the map's center to the department's coordinates
+            map.setView(departmentCoordinates, 15);
+        }
+
+        function searchDepartment() {
+            var departmentInput = document.getElementById('departmentInput').value;
+            var departmentCoordinates = departments[departmentInput];
+
+            if (departmentCoordinates) {
+                // Remove previous marker and line if they exist
+                if (marker) {
+                    map.removeLayer(marker);
+                }
+                if (line) {
+                    map.removeLayer(line);
+                }
+
+                // Create a new marker at the department's location
+                marker = L.marker(departmentCoordinates).addTo(map);
+
+                // Create a polyline from school to department location
+                var schoolCoordinates = [11.9728, 8.4259]; // School coordinates
+                var latlngs = [schoolCoordinates, departmentCoordinates];
+                line = L.polyline(latlngs, {color: 'blue'}).addTo(map);
+
+                // Set the map's center to the department's coordinates
+                map.setView(departmentCoordinates, 15);
+            } else {
+                alert('Department not found');
+            }
+        }
+
+        // Function to get user's location and display a line from school to user's location
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var userCoordinates = [position.coords.latitude, position.coords.longitude];
+
+                    // Remove previous marker and line if they exist
+                    if (marker) {
+                        map.removeLayer(marker);
+                    }
+                    if (line) {
+                        map.removeLayer(line);
+                    }
+
+                    // Create a new marker at the user's location
+                    marker = L.marker(userCoordinates).addTo(map);
+
+                    // Create a polyline from school to user's location
+                    var schoolCoordinates = [11.9728, 8.4259]; // School coordinates
+                    var latlngs = [schoolCoordinates, userCoordinates];
+                    line = L.polyline(latlngs, {color: 'blue'}).addTo(map);
+
+                    // Set the map's center to the user's coordinates
+                    map.setView(userCoordinates, 15);
+                }, function (error) {
+                    console.error('Error getting user location:', error);
+                    alert('Unable to retrieve your location.');
+                });
+            } else {
+                alert('Geolocation is not supported by your browser.');
+            }
+        }
+
+        // Call the function to get user's location when the page loads
+        getUserLocation();
+    </script>
+</body>
+</html>

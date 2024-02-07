@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Explorer</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+     <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="search-container">
+        <label  for="departmentInput">Enter Department Name:</label>
+        <input itemid="search-input" type="text" id="departmentInput" />
+        <button onclick="searchDepartment()" id="search-btn">Locate</button>
+
+        <div id="suggestions">
+            <label for="departmentSelect">Suggested Departments:</label>
+            <select id="departmentSelect" onchange="selectSuggestedDepartment()"></select>
+            <div id="department-info"></div> <!-- Container for department information -->
+
+        </div>
+    </div>
+    <div id="map" style="height: 100%;"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([11.979143500845394, 8.478922117652195], 13);
+        var marker;
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Example department data
+        var departments = {
+
+            "faculty of science": [],
+            "faculty of basic medical science": [],
+            "faculty of phamarcuetical health science": [],
+            "faculty of ": [],
+
+            "department of foriensic science": [],
+            "department of mathematics": [],
+            "department of microbiology": [11.97841223627707, 8.477631059093433],
+            "departmnet of industrial chemistry": [],
+            "department of anatomy": [],
+            "department of physiology": [11.979472251917493, 8.476440158289208],
+            "department of biochemistry": [11.979262348188552, 8.480173793234894],
+            "department of pharmacy": [],
+            "department of chemistry": [],
+            "department of physics": [],
+            "department of biology": [],
+            "department of applied biology":[],
+            "department of botany": [],
+            "department of zoology": [],
+            "department of enviromental health": [],
+    
+
+            // Add more departments as needed
+        };
+
+        // Suggested departments
+        var suggestedDepartments = Object.keys(departments);
+
+        // Populate the suggestions dropdown
+        var select = document.getElementById('departmentSelect');
+        suggestedDepartments.forEach(function (department) {
+            var option = document.createElement('option');
+            option.value = department;
+            option.text = department;
+            select.appendChild(option);
+        });
+
+        function searchDepartment() {
+            var departmentInput = document.getElementById('search-input').value;
+            var departmentCoordinates = departments[departmentInput];
+
+            if (departmentCoordinates) {
+                // Remove previous marker if it exists
+                if (marker) {
+                    map.removeLayer(marker);
+                }
+
+                // Create a new marker at the department's location
+                marker = L.marker(departmentCoordinates).addTo(map);
+
+                // Set the map's center to the department's coordinates
+                map.setView(departmentCoordinates, 15);
+
+                document.getElementById('department-info').innerHTML = department.info;
+
+
+            } else {
+                alert('Department not found');
+            }
+        }
+        
+
+        function selectSuggestedDepartment() {
+            var selectedDepartment = document.getElementById('departmentSelect').value;
+            var departmentCoordinates = departments[selectedDepartment];
+
+            // Remove previous marker if it exists
+            if (marker) {
+                map.removeLayer(marker);
+            }
+
+            // Create a new marker at the department's location
+            marker = L.marker(departmentCoordinates).addTo(map);
+
+            // Set the map's center to the department's coordinates
+            map.setView(departmentCoordinates, 15);
+        }
+    </script>
+</body>
+</html>

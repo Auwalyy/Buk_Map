@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Explorer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #button-container {
+            text-align: center;
+        }
+
+        .page-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Styles for the modal */
+        #modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div id="button-container">
+        <a href="new_site.html" class="page-button"> New_Site</a>
+        <a href="all_site.html" class="page-button">Old_Site</a>
+    </div>
+
+    <!-- Modal content -->
+    <div id="modal">
+        <p>Instructions on how to navigate:</p>
+        <ul>
+            <li>Click on "View Map" to explore the university map.</li>
+            <li>Interact with the map and search for departments.</li>
+            <!-- Add more instructions as needed -->
+        </ul>
+        <button onclick="closeModal()">Close</button>
+    </div>
+
+    <!-- Overlay to darken the background when the modal is open -->
+    <div id="overlay"></div>
+
+    <script>
+        // Open the modal on page load
+        window.onload = function () {
+            openModal();
+        };
+
+        // Function to open the modal
+        function openModal() {
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
