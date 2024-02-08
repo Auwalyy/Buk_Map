@@ -71,7 +71,7 @@
 
     @media only screen and (max-width: 600px) {
         #map {
-            height: 100vh; /* Adjust map height for smaller screens */
+            height: 100%; /* Adjust map height for smaller screens */
         }
     
         #search-container {
