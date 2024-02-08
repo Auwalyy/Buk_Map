@@ -23,7 +23,7 @@
             <h2 id="department-name"> </h2>
             <p id="department-description"></p>
         
-            <img id="faculty-image" src="" alt="Faculty Image">
+            <img id="faculty-image" src="images/" alt="Faculty Image">
         </div>
     </div>
     <div id="map" style="height: 100%px;"></div>
@@ -31,9 +31,7 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         // Get the faculty image
-        const facultyImage =
-        
-        document.querySelector("#faculty-image");
+        const facultyImage = document.querySelector("#faculty-image");
 
 
         var map = L.map('map').setView([11.9728,8.4259], 13);
@@ -45,7 +43,7 @@
         }).addTo(map);
 
         const deps = [
-            {name: "Home", coordinates: [11.9728,8.4259], image: ""},
+            {name: "Home", coordinates: [11.9728,8.4259], image: "buk.jpeg"},
             {name: "Faculty of Earth and Enviromental Sciences", coordinates: [11.97788798029846, 8.427111968299158], image: "economics.jpg"},
             {name: "faculty of agricultural science", coordinates: [11.973306527320533, 8.424967835291499],  image: "agric.jpeg"}
         ]
