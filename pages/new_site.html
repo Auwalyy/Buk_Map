@@ -239,6 +239,7 @@
                 marker = L.marker(departmentCoordinates).addTo(map);
 
                 // Create a polyline from school to department location
+            
                 const schoolCoordinates = [11.9728, 8.4259]; // School coordinates
                 const latlngs = [schoolCoordinates, departmentCoordinates];
                 line = L.polyline(latlngs, { color: 'blue' }).addTo(map);
