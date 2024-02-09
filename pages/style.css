@@ -69,8 +69,8 @@
        }
 
        .logo {
-           width: 70vh; 
-           height: 40vh; 
+           width: 48vh; 
+           height: 76vh; 
            margin-top: 0; 
            border: 2px solid white; 
            border-radius: 5px;
@@ -90,6 +90,13 @@
            #search-container input[type="text"] {
                width: calc(100% - 10px);
            }
+
+           .logo {
+            width: 30vh;
+            height: 76vh;
+        }
+       
+
        }
        .image-div {
            width: 100%;
@@ -105,8 +112,4 @@
            max-height:100%;
        }
 
-       .logo {
-           width: 30vh;
-           height: 60vh;
-       }
-      
+        
