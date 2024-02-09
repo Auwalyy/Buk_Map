@@ -8,8 +8,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="search-container">
-        <label for="departmentInput">Enter Department Name:</label>
+     <div id="search-container">
+        <img src="images/logo.jpg" class="logo" alt="">
+
+        <label for="departmentInput" style="margin-top: 3px;">Enter Department Name:</label>
         <input type="text" id="departmentInput" />
         <button onclick="searchDepartment()" id="search-btn">Locate</button>
 
@@ -17,13 +19,13 @@
             <label for="departmentSelect">Suggested Departments:</label>
             <select id="departmentSelect" onchange="selectSuggestedDepartment()"></select>
         </div>
-        <div class="department-info">
+        <!--<div class="department-info">
             <h2 id="department-name">Name: </h2>
             <p id="department-description"> Description: </p>
-        </div>
-        <div class="image-div" style="margin-top: 20px;">
-            <img id="faculty-image" src="" style="margin-top: 20px;" alt="Faculty Image">
-        </div>
+        </div> -->
+        <!-- <div class="image-div">
+            <img id="faculty-image" src="" alt="Faculty Image">
+        </div> -->
     </div>
     <div id="map" style="height: 100%px;"></div>
 
@@ -31,16 +33,12 @@
     <script>
 
 
-
-
-
-       // const facultyImage = document.querySelector("#faculty-image");
+        const facultyImage = document.querySelector("#faculty-image");
         const departmentNameElement = document.getElementById("department-name");
         const departmentDescriptionElement = document.getElementById("department-description");
 
-        const facultyImage =
-        
-        document.querySelector("#faculty-image");
+        // Your existing code...
+        //const facultyImage = document.querySelector("#faculty-image");
 
 
         var map = L.map('map').setView([11.9728,8.4259], 13);
@@ -53,8 +51,13 @@
 
         const deps = [
             {name: "Home", coordinates: [11.9728,8.4259], },
-            {name: "Faculty of Earth and Enviromental Sciences", coordinates: [11.97788798029846, 8.427111968299158], image: "agric.jpeg"},
-            {name: "faculty of agricultural science", coordinates: [11.973306527320533, 8.424967835291499],  image: "agric.jpeg"}
+            {name: "Faculty of Earth and Enviromental Sciences", coordinates: [11.97788798029846, 8.427111968299158]},
+            {name: "faculty of agricultural science", coordinates: [11.973306527320533, 8.424967835291499]},
+            {name: "Faculty of Social and Management Science", coordinates: []},
+            {name: "Department of Economic", coordinates: []},
+            {name: "Department of Accounting", coordinates: []},
+            {name: "Department of Computer Science", coordinates: []},
+            {name}
         ]
 
         var departments = {
@@ -112,7 +115,7 @@
         //     option.text = department;
         //     select.appendChild(option);
         // });
-        suggestedDepartments.forEach(department => {
+       suggestedDepartments.forEach(department => {
             var option = document.createElement('option');
             option.value = department.name;
             option.text = department.name;
@@ -218,12 +221,13 @@
 
             if (depData) {
                 const departmentCoordinates = depData.coordinates;
-                facultyImage.src = `../images/${depData.image}`;
+                facultyImage.src = `images/${depData.image}`;
 
                 // Display department information
                 departmentNameElement.textContent = ` Name: ${depData.name}`;
                 departmentDescriptionElement.textContent = ` Description: ${getDepartmentDescription(depData.name)}`;
 
+                // Remove previous marker and line if they exist
                 if (marker) {
                     map.removeLayer(marker);
                 }
@@ -244,17 +248,16 @@
             }
         }
 
-        function getDepartmentDescription(departmentName) {
-            // Add your logic to retrieve the department description based on its name
-            // For demonstration purposes, you can return a static description
-            const descriptions = {
-                "Home": "Welcome to our campus!",
-                "Faculty of Earth and Enviromental Sciences": "Department focusing on environmental studies and earth sciences.",
-                "Faculty of Computer Science and Information Technology": "focus on providing solid foundation on Information technology",
-                "Faculty of Management and Social Science": "Teach poeple on how to do mommako",
-             };
-            return descriptions[departmentName] || "No description available";
-        }
+       // function getDepartmentDescription(departmentName) {
+       //     // Add your logic to retrieve the department description based on its name
+       //     // For demonstration purposes, you can return a static description
+       //     const descriptions = {
+       //         "Home": "Welcome to our campus!",
+       //         "Faculty of Earth and Enviromental Sciences": "Department focusing on environmental studies and earth sciences.",
+       //         // Add descriptions for other departments
+       //     };
+       //     return descriptions[departmentName] || "No description available";
+       // }
     </script>
 </body>
 </html>
