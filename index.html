@@ -46,6 +46,15 @@
             text-align: center;
         }
 
+        @media screen and (max-width: 600px){
+            #modal {
+                width: 40vh;
+                list-style: none;
+
+            }
+
+        }
+
         #overlay {
             display: none;
             position: fixed;
@@ -65,14 +74,14 @@
     </div>
 
     <!-- Modal content -->
-    <!-- <div id="modal">
+     <div id="modal">
         <p>Instructions on how to navigate:</p>
         <ul>
             <li>Click on "View Map" to explore the university map.</li>
             <li>Interact with the map and search for departments.</li>
         </ul> 
         <button onclick="closeModal()">Close</button>
-    </div> -->
+    </div> 
 
     <!-- Overlay to darken the background when the modal is open -->
     <div id="overlay"></div>

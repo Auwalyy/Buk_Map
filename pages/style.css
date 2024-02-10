@@ -109,7 +109,7 @@ body {
 #department-description {
     order: 1;
     /* Set the order to arrange the text before the image */
-    margin-bottom: 5px;
+    margin-bottom: 5px; 
     /* Add some space between the text and the image */
 }
 
